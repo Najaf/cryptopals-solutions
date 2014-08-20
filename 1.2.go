@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-  "github.com/Najaf/cryptopals-solutions/util"
+	"github.com/Najaf/cryptopals-solutions/util"
 )
 
 func main() {
