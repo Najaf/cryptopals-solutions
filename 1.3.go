@@ -18,6 +18,7 @@ func singleByteXOR(input []byte, key byte) []byte {
 
 
 // Map from ascii bytes => character frequency score
+// Pinched from: https://en.wikipedia.org/wiki/Letter_frequency#Relative_frequencies_of_letters_in_the_English_language
 var charScores = map[byte]int{
 	0x61: 8,  // a
 	0x62: 2,  // b
