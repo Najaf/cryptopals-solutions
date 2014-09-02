@@ -1,8 +1,7 @@
 package charfreq
 
 import (
-  "sort"
-  "fmt"
+	"sort"
 )
 
 // Map from ascii bytes => character frequency score
@@ -60,12 +59,10 @@ func (s ByCharacterFrequency) Less(i, j int) bool {
 }
 
 func BestCharFrequencyScore(input [][]byte) ([]byte, int) {
-  fmt.Printf("")
-
-  plaintexts := make([][]byte, len(input))
-  copy(plaintexts, input)
+	plaintexts := make([][]byte, len(input))
+	copy(plaintexts, input)
 	sort.Sort(ByCharacterFrequency(plaintexts))
 
-  winner := plaintexts[0]
-  return winner, characterFrequncyScore(winner)
+	winner := plaintexts[0]
+	return winner, characterFrequncyScore(winner)
 }
