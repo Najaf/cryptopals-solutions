@@ -16,10 +16,6 @@ func singleByteXOR(input []byte, key byte) []byte {
 	return util.FixedXOR(input, key_bytes)
 }
 
-//func score(input string) int {
-//scoring := map[byte]int{
-//}
-//}
 
 // Map from ascii bytes => character frequency score
 var charScores = map[byte]int{
