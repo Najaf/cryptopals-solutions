@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/Najaf/cryptopals-solutions/util"
+	"github.com/Najaf/cryptopals-solutions/xor"
 	"github.com/Najaf/cryptopals-solutions/charfreq"
 )
 
@@ -12,7 +12,7 @@ func main() {
 	var plaintexts [][]byte
 
 	for i := 0; i < 256; i++ {
-		result := util.SingleByteXOR(ciphertext, byte(i))
+		result := xor.SingleByte(ciphertext, byte(i))
 		plaintexts = append(plaintexts, result)
 	}
 

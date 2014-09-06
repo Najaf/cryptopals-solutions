@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/Najaf/cryptopals-solutions/charfreq"
-	"github.com/Najaf/cryptopals-solutions/util"
+	"github.com/Najaf/cryptopals-solutions/xor"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -20,7 +20,7 @@ func main() {
 	for _, encoded_ciphertext := range ciphertexts {
 		ciphertext, _ := hex.DecodeString(encoded_ciphertext)
 		for i := 0; i < 256; i++ {
-			result := util.SingleByteXOR(ciphertext, byte(i))
+			result := xor.SingleByte(ciphertext, byte(i))
 			plaintexts = append(plaintexts, result)
 		}
 	}

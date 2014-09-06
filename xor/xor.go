@@ -1,6 +1,6 @@
-package util
+package xor
 
-func FixedXOR(a []byte, b []byte) []byte {
+func Fixed(a []byte, b []byte) []byte {
 	result := make([]byte, len(a))
 
 	for index, _ := range a {
@@ -10,11 +10,11 @@ func FixedXOR(a []byte, b []byte) []byte {
 	return result
 }
 
-func SingleByteXOR(input []byte, key byte) []byte {
+func SingleByte(input []byte, key byte) []byte {
 	key_bytes := make([]byte, len(input))
 	for i, _ := range key_bytes {
 		key_bytes[i] = key
 	}
 
-	return FixedXOR(input, key_bytes)
+	return Fixed(input, key_bytes)
 }

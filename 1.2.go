@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/Najaf/cryptopals-solutions/util"
+	"github.com/Najaf/cryptopals-solutions/xor"
 )
 
 func main() {
@@ -13,7 +13,7 @@ func main() {
 	a, _ := hex.DecodeString(encoded_a)
 	b, _ := hex.DecodeString(encoded_b)
 
-	generated_result := hex.EncodeToString(util.FixedXOR(a, b))
+	generated_result := hex.EncodeToString(xor.Fixed(a, b))
 	expected_result := "746865206b696420646f6e277420706c6179"
 
 	fmt.Printf("Expected:\t%s\n", expected_result)
