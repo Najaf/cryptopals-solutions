@@ -35,8 +35,9 @@ func (c Ciphertext) Blocks(blocks ...int) [][]byte {
 	return result
 }
 
-func (c Ciphertext) AverageNormalizedHammingDistances(lower, upper int) map[int]float32 {
+func (c *Ciphertext) averageNormalizedHammingDistances(lower, upper int) map[int]float32 {
 	result := make(map[int]float32)
+	originalBlockSize := c.BlockSize
 	for keySize := lower; keySize <= upper; keySize++ {
 		c.BlockSize = keySize
 		sampleBlocks := c.Blocks(0, 1, 2, 3)
@@ -52,5 +53,18 @@ func (c Ciphertext) AverageNormalizedHammingDistances(lower, upper int) map[int]
 		result[keySize] = averageHammy
 	}
 
+	c.BlockSize = originalBlockSize
 	return result
+}
+
+func (c *Ciphertext) GuessRepeatingXorKeySize(lower, upper int) int {
+	minHammy := float32(100.0)
+	guessedKeySize := 0
+	for keySize, hammy := range c.averageNormalizedHammingDistances(lower, upper) {
+		if hammy < minHammy {
+			minHammy = hammy
+			guessedKeySize = keySize
+		}
+	}
+	return guessedKeySize
 }
