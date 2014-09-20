@@ -2,13 +2,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/Najaf/cryptopals-solutions/hamming"
+	"github.com/Najaf/cryptopals-solutions/ciphertext"
+	"io/ioutil"
+	"os"
 )
 
-
 func main() {
-  a, b := "this is a test", "wokka wokka!!!"
-  fmt.Printf("Left:\t%s\n", a)
-  fmt.Printf("Right:\t%s\t\n", b)
-  fmt.Printf("Hamming Distance: %d\n", hamming.Distance(a, b))
+	// Crack open the ciphertext
+	f, _ := os.Open("challenge-data/6.txt")
+	encodedCiphertext, _ := ioutil.ReadAll(f)
+
+	ctext := ciphertext.NewCiphertextFromBase64(encodedCiphertext, 0)
+	for keySize, averageHammy := range ctext.AverageNormalizedHammingDistances(2, 40) {
+		fmt.Printf("%d %f\n", keySize, averageHammy)
+	}
+
 }
