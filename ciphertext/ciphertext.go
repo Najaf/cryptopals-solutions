@@ -2,11 +2,13 @@ package ciphertext
 
 import (
 	"encoding/base64"
+	"github.com/Najaf/cryptopals-solutions/charfreq"
 	"github.com/Najaf/cryptopals-solutions/hamming"
+	"github.com/Najaf/cryptopals-solutions/xor"
 )
 
 type Ciphertext struct {
-	data      []byte
+	Data      []byte
 	BlockSize int
 }
 
@@ -22,7 +24,7 @@ func NewCiphertext(data []byte, blockSize int) *Ciphertext {
 func (c Ciphertext) Block(n int) []byte {
 	startIndex := n * c.BlockSize
 	endIndex := startIndex + c.BlockSize
-	return c.data[startIndex:endIndex]
+	return c.Data[startIndex:endIndex]
 }
 
 func (c Ciphertext) Blocks(blocks ...int) [][]byte {
@@ -33,6 +35,40 @@ func (c Ciphertext) Blocks(blocks ...int) [][]byte {
 	}
 
 	return result
+}
+
+func (c *Ciphertext) BlockCount() int {
+	return len(c.Data) / c.BlockSize
+}
+
+func (c *Ciphertext) TransposedBlock(byteIndex int) []byte {
+	result := make([]byte, c.BlockCount())
+	for n := 0; n < c.BlockCount(); n++ {
+		result[n] = c.Block(n)[byteIndex]
+	}
+	return result
+}
+
+func (c *Ciphertext) KeyByte(byteIndex int) byte {
+	transposedBlock := c.TransposedBlock(byteIndex)
+	maxScore, keyByte := 0, byte(0)
+	for i := 0; i < 256; i++ {
+		plaintext := xor.SingleByte(transposedBlock, byte(i))
+		score := charfreq.CharacterFrequncyScore(plaintext)
+		if score > maxScore {
+			maxScore = score
+			keyByte = byte(i)
+		}
+	}
+	return keyByte
+}
+
+func (c *Ciphertext) BreakRepeatingXorKey() []byte {
+	key := make([]byte, c.BlockSize)
+	for i := 0; i < c.BlockSize; i++ {
+		key[i] = c.KeyByte(i)
+	}
+	return key
 }
 
 func (c *Ciphertext) averageNormalizedHammingDistances(lower, upper int) map[int]float32 {

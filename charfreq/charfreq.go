@@ -36,7 +36,7 @@ var charScores = map[byte]int{
 	0x20: 5,  // space
 }
 
-func characterFrequncyScore(input []byte) int {
+func CharacterFrequncyScore(input []byte) int {
 	score := 0
 	for _, thisByte := range input {
 		score = score + charScores[thisByte]
@@ -55,7 +55,7 @@ func (s ByCharacterFrequency) Swap(i, j int) {
 }
 
 func (s ByCharacterFrequency) Less(i, j int) bool {
-	return characterFrequncyScore(s[i]) > characterFrequncyScore(s[j])
+	return CharacterFrequncyScore(s[i]) > CharacterFrequncyScore(s[j])
 }
 
 func BestCharFrequencyScore(input [][]byte) ([]byte, int) {
@@ -64,5 +64,5 @@ func BestCharFrequencyScore(input [][]byte) ([]byte, int) {
 	sort.Sort(ByCharacterFrequency(plaintexts))
 
 	winner := plaintexts[0]
-	return winner, characterFrequncyScore(winner)
+	return winner, CharacterFrequncyScore(winner)
 }
